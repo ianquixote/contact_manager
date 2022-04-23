@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Contact Manager</title>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/handlebars.js"></script>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
+  <link rel="stylesheet" href="/stylesheets/main.css">
+
+</head>
+<body>
+  <header class="bs-header">
+    <div class="container">
+      <h1>My Contact Manager</h1>
+      <p>Built with JQuery and Handlebars</p>
+    </div>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 main-container">
+      </div>
+    </div>
+    <div class="footer text-center">
+      <p>Developed by Ian Austin via the Launch School Curriculum</p>
+    </div>
+  </div>
+
+  <script id="row" type="text/x-handlebars">
+    <div id ="row-and-contacts">
+      <div class="row-and-tags">
+        <div class="row well">
+          <a href="#contacts/new" class="btn btn-lg btn-outline btn-top-row" id="add-contact">Add Contact</a>
+          <a href="#" class="btn btn-lg btn-outline btn-top-row" id="show-all">Show All Contacts</a>
+          <div class="text-center col-sm-4 search-by-name">
+            <input type="text" class="form-control contact-name-search" placeholder="Search by Name">
+          </div>
+        </div>
+        <div class="row well">
+          <h3 class="tag-title">Search Contacts by Tag</h3>
+          <ul class="tag-buttons">
+            {{#each tags}}
+              <li class="tag-button" data-tag="{{this}}"><a href="#" class="btn btn-outline">{{this}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+
+      <ul class="media-list row contacts-container"></ul>
+      <div class="empty-search-contacts-placeholder"></div>
+    </div>
+  </script>
+
+  <script id="contact" type="text/x-handlebars">
+    <li class="media col-md-3 col-sm-4" data-id={{id}}>
+      <div class="media-heading">
+        <h3>{{full_name}}</h3>
+      </div>
+      <div class="media-body">
+        <dl>
+          <dt>Phone Number:</dt>
+          <dd>{{phone_number}}</dd>
+          <dt>Email:</dt>
+          <dd>{{email}}</dd>
+          <dt>Tags:</dt>
+          <dd>
+            <ul class="tags">
+              {{#each tags}}
+              <li class="tag"><a href="#">{{this}}</a></li>
+              {{/each}}
+            </ul>
+          </dd>
+        </dl>
+      </div>
+      <div class="contact-btn-wrapper">
+        <a href="#contacts/edit/1" class="edit-contact btn btn-outline"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+        <a href="#contacts/delete/1" class="delete-contact btn btn-outline"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+      </div>
+      <hr>
+    </li>
+  </script>
+
+  <script id="create-contact" type="text/x-handlebars">
+    <div style id='create-contact-form'>
+      <h2 class="page-header text-center">Create Contact</h2>
+      <form id="sub-form"  action="/sub-action"  method="post"></form>
+      <form role="form" class="form-horizontal contact-form">
+        <div class="form-group has-feedback form-group-name">
+          <label class="col-sm-4 control-label">Full name:</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control contact-name-input" value="">
+            <small class="help-block"></small>
+          </div>
+        </div>
+        <div class="form-group has-feedback form-group-email">
+          <label class="col-sm-4 control-label">Email address:</label>
+          <div class="col-sm-6">
+            <input type="email" class="form-control contact-email-input" value="">
+            <small class="help-block"></small>
+          </div>
+        </div>
+        <div class="form-group has-feedback form-group-phone">
+          <label class="col-sm-4 control-label">Telephone number:</label>
+          <div class="col-sm-6">
+            <input type="tel" class="form-control contact-phone-input" value="">
+            <small class="help-block"></small>
+          </div>
+        </div>
+        <div class="form-group has-feedback form-group-tags">
+          <label class="col-sm-4 control-label">Tags:</label>
+          <div class="col-sm-6">
+            <select  multiple size="4" type="text" class="form-control contact-tags-input">
+              {{#each tags}}
+              <option>{{this}}</option>
+              {{/each}}
+            </select>
+            <small class="help-block">Hold cmd/ctrl to select multiple tags</small>
+          </div>
+        </div>
+        <div class="form-group has-feedback form-group-add-tag">
+          <label class="col-sm-4 control-label">Add a Tag:</label>
+          <div class="col-sm-6">
+            <input type="text" class="add-tag-input add-tag form-control col-sm-4" form="sub-form">
+            <button type="submit" class="btn btn-outline btn-block col-sm-2 add-tag-submit" form="sub-form">Add</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-3">
+            <button type="submit" class="btn btn-outline btn-lg btn-block">Submit</button>
+          </div>
+          <div class="col-sm-3">
+            <button class="btn-close-form btn btn-outline btn-lg btn-block">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </script>
+
+  <script id="edit-contact" type="text/x-handlebars">
+    <div style id='edit-contact-form'>
+      <h2 class="page-header text-center">Edit Contact</h2>
+      <form id="sub-form-edit"  action="/sub-action"  method="post"></form>
+      <form role="form" class="form-horizontal contact-form">
+        <div class="form-group has-feedback form-group-name">
+          <label class="col-sm-4 control-label">Full name:</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control contact-name-input" value="{{fullName}}">
+            <small class="help-block"></small>
+          </div>
+        </div>
+        <div class="form-group has-feedback form-group-email">
+          <label class="col-sm-4 control-label">Email address:</label>
+          <div class="col-sm-6">
+            <input type="email" class="form-control contact-email-input" value="{{email}}">
+            <small class="help-block"></small>
+          </div>
+        </div>
+        <div class="form-group has-feedback form-group-phone">
+          <label class="col-sm-4 control-label">Telephone number:</label>
+          <div class="col-sm-6">
+            <input type="tel" class="form-control contact-phone-input" value="{{phoneNumber}}">
+            <small class="help-block"></small>
+          </div>
+        </div>
+        <div class="form-group has-feedback form-group-tags">
+          <label class="col-sm-4 control-label">Tags:</label>
+          <div class="col-sm-6">
+            <select  multiple size="4" type="text" class="form-control contact-tags-input">
+              {{#each selectedTags}}
+              <option selected>{{this}}</option>
+              {{/each}}
+              {{#each unselectedTags}}
+              <option>{{this}}</option>
+              {{/each}}
+            </select>
+            <small class="help-block">Hold cmd/ctrl to select multiple tags</small>
+          </div>
+        </div>
+        <div class="form-group has-feedback form-group-add-tag">
+          <label class="col-sm-4 control-label">Add a Tag:</label>
+          <div class="col-sm-6">
+            <input type="text" class="add-tag-input add-tag form-control col-sm-4" form="sub-form-edit">
+            <button type="submit" class="btn btn-outline btn-block col-sm-2 add-tag-submit" form="sub-form-edit">Add</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-3">
+            <button type="submit" class="btn btn-outline btn-lg btn-block">Submit</button>
+          </div>
+          <div class="col-sm-3">
+            <button class="btn-close-form btn btn-outline btn-lg btn-block">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </script>
+
+  <script src="/javascripts/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "full_name": "Naveed Fida",
+    "email": "nf@example.com",
+    "phone_number": "12345678901",
+    "tags": "work"
+  },
+  {
+    "id": 2,
+    "full_name": "Victor Reyes",
+    "email": "vpr@example.com",
+    "phone_number": "987654321",
+    "tags": "work"
+  },
+  {
+    "full_name": "Ian Austin",
+    "phone_number": "123412341",
+    "email": "ian@ian.com",
+    "tags": "student,student",
+    "id": 10
+  },
+  {
+    "full_name": "Pete Hansen",
+    "phone_number": "789789789",
+    "email": "pete@ph.com",
+    "tags": "TA,instructor",
+    "id": 11
+  }
+]
